@@ -58,15 +58,6 @@ export function ImageGenerator({ setimageUrls }: { setimageUrls: any }) {
       // Handle the response data here
       console.log({ data });
       setimageUrls(data.output);
-
-      if (data.output.length > 0) {
-        try {
-          const resp = await storeImageUrl("hhhhhhhhhhhhhhhhhhhh");
-          console.log({ firstImage: resp });
-        } catch (error) {
-          console.error("Error storing image:", error);
-        }
-      }
     } catch (error) {
       console.error("Error generating image:", error);
     } finally {
