@@ -10,6 +10,13 @@ import Image from "next/image";
 import { useState } from "react";
 import TransparentNavbar from "@/components/navbar";
 import InfiniteScrollGallery from "@/components/image-scroll";
+import FancyCTA from "@/components/cta-card";
+import FuturisticCTA from "@/components/cta-card";
+
+import { Canvas, useFrame } from "@react-three/fiber";
+import { useRef } from "react";
+import { Points, PointMaterial } from "@react-three/drei";
+import { MathUtils } from "three";
 
 export default function Home() {
   const [imageUrls, setimageUrls] = useState([]);
@@ -21,24 +28,109 @@ export default function Home() {
     "/e.jpg",
     "/f.png",
     "/g.png",
+    "/a.png",
+    "/b.png",
+    "/c.jpg",
+    "/d.png",
+    "/e.jpg",
+    "/f.png",
+    "/g.png",
+    "/a.png",
+    "/b.png",
+    "/c.jpg",
+    "/d.png",
+    "/e.jpg",
+    "/f.png",
+    "/g.png",
+    "/a.png",
+    "/b.png",
+    "/c.jpg",
+    "/d.png",
+    "/e.jpg",
+    "/f.png",
+    "/g.png",
+    "/a.png",
+    "/b.png",
+    "/c.jpg",
+    "/d.png",
+    "/e.jpg",
+    "/f.png",
+    "/g.png",
+    "/a.png",
+    "/b.png",
+    "/c.jpg",
+    "/d.png",
+    "/e.jpg",
+    "/f.png",
+    "/g.png",
+    "/a.png",
+    "/b.png",
+    "/c.jpg",
+    "/d.png",
+    "/e.jpg",
+    "/f.png",
+    "/g.png",
+    "/a.png",
+    "/b.png",
+    "/c.jpg",
+    "/d.png",
+    "/e.jpg",
+    "/f.png",
+    "/g.png",
     // Add more URLs here...
   ];
 
-  console.log({ imageUrls });
+  const FloatingParticles = () => {
+    const ref = useRef<any>();
+
+    useFrame(({ clock }) => {
+      if (ref.current) {
+        ref.current.rotation.y = clock.elapsedTime * 0.03; // Slow rotation for dynamic movement
+      }
+    });
+
+    // Increase the spread so particles exceed the card bounds
+    const particles = Array.from({ length: 1000 }, () => [
+      MathUtils.randFloatSpread(15), // Increased X-axis spread (beyond card width)
+      MathUtils.randFloatSpread(10), // Increased Y-axis spread (beyond card height)
+      MathUtils.randFloatSpread(12), // Increased Z-axis spread
+    ]);
+
+    return (
+      <group ref={ref}>
+        <Points positions={new Float32Array(particles.flat())}>
+          <PointMaterial
+            size={0.034}
+            color="#00FFFF" // Neon cyan
+            transparent
+            opacity={0.7}
+          />
+        </Points>
+      </group>
+    );
+  };
   return (
-    <main className="min-h-screen bg-[#0D0D0D] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-secondary/20 via-background to-background">
+    <main className="min-h-screen relative bg-[#0D0D0D] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-secondary/20 via-background to-background">
       {/* Hero Section */}
       <div className=" hidden md:flex">
         <TransparentNavbar />
       </div>
 
-      <div className="max-w-6xl relative mt-32 mx-auto p-6 space-y-16">
-        <div className="flex flex-col  gap-0 opacity-70 blur-sm z-30">
-          <InfiniteScrollGallery images={images} speed={20} isReserve={true} />
-          <InfiniteScrollGallery images={images} speed={1} isReserve={false} />
-          <InfiniteScrollGallery images={images} speed={40} isReserve={true} />
+      <div className="absolute top-29 left-0 w-full h-96">
+        <Canvas className="w-full-full" camera={{ position: [0, 0, 7] }}>
+          <ambientLight intensity={0.5} />
+          <pointLight position={[3, 3, 5]} intensity={1.2} />
+          <FloatingParticles />
+        </Canvas>
+      </div>
+
+      <div className=" relative mt-32 mx-auto p-6 space-y-16">
+        <div className="flex flex-col w-full  gap-0 opacity-80 blur-sm  z-30">
+          <InfiniteScrollGallery images={images} speed={30} isReverse={true} />
+          <InfiniteScrollGallery images={images} speed={60} isReverse={false} />
+          <InfiniteScrollGallery images={images} speed={30} isReverse={true} />
         </div>
-        <div className="space-y-4 absolute text-center top-20 backdrop:blur-md animate-fade-in">
+        <div className="space-y-4 backdrop:blur-lg lg:left-[20%] absolute text-center top-20  animate-fade-in">
           <div className="inline-block animate-float">
             <div className="relative">
               <div className="absolute -inset-1 bg-gradient-to-r from-primary to-primary/50 rounded-full blur opacity-30"></div>
@@ -48,6 +140,7 @@ export default function Home() {
           <h1 className="text-3xl sm:text-7xl font-bold text-white">
             Create Beautiful Art With{" "}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary/80 to-primary/50">
+              <br />
               PixArt
             </span>
           </h1>
@@ -68,56 +161,55 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Main Content */}
-        <div className="grid grid-cols-1  gap-8">
-          <div className="transition-all duration-300">
-            <ImageGenerator setimageUrls={setimageUrls} />
+        <section className="w-10/12 mx-auto max-w-6xl">
+          {/* Main Content */}
+          <div className="grid grid-cols-1  gap-8">
+            <div className="transition-all duration-300">
+              <ImageGenerator setimageUrls={setimageUrls} />
+            </div>
+            <div className="grid grid-cols-2  gap-4 stagger-animation">
+              {imageUrls.length > 0 &&
+                imageUrls.map((i: string) => (
+                  <Card
+                    key={i}
+                    className=" w-full lg:w-72 rounded-2xl glass-card flex items-center justify-center group hover:border-primary/50 transition-all duration-300"
+                  >
+                    {/* <ImageIcon className="h-8 w-8 text-muted-foreground/50 group-hover:text-primary/50 transition-colors" /> */}
+                    <Image
+                      src={i}
+                      alt="Generated Image"
+                      width={300}
+                      height={400}
+                      className="object-cover rounded-2xl"
+                    />
+                  </Card>
+                ))}
+            </div>
           </div>
-          <div className="grid grid-cols-2  gap-4 stagger-animation">
-            {imageUrls.length > 0 &&
-              imageUrls.map((i: string) => (
-                <Card
-                  key={i}
-                  className=" w-full lg:w-72 rounded-2xl glass-card flex items-center justify-center group hover:border-primary/50 transition-all duration-300"
-                >
-                  {/* <ImageIcon className="h-8 w-8 text-muted-foreground/50 group-hover:text-primary/50 transition-colors" /> */}
-                  <Image
-                    src={i}
-                    alt="Generated Image"
-                    width={300}
-                    height={400}
-                    className="object-cover rounded-2xl"
-                  />
-                </Card>
-              ))}
+
+          {/* Features Section */}
+          <Features />
+
+          {/* Images gallary */}
+          <div className="flex flex-col">
+            <InfiniteScrollGallery
+              images={images}
+              speed={60}
+              isReverse={true}
+            />
+            <InfiniteScrollGallery
+              images={images}
+              speed={60}
+              isReverse={false}
+            />
           </div>
-        </div>
 
-        {/* Features Section */}
-        <Features />
+          {/* Testimonials Section */}
+          <Testimonials />
 
-        {/* Images gallary */}
-
-        {/* Testimonials Section */}
-        <Testimonials />
-
-        {/* CTA Section */}
-        <div className="relative glass-card rounded-2xl p-8 mt-16 overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-secondary/10"></div>
-          <div className="relative z-10 text-center space-y-4">
-            <h2 className="text-3xl font-bold">Ready to Create?</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Join thousands of creators using our AI to bring their imagination
-              to life
-            </p>
-            <Button
-              size="lg"
-              className="bg-primary rounded-2xl hover:bg-primary/90 text-white mt-4"
-            >
-              Get Started Now
-            </Button>
-          </div>
-        </div>
+          {/* CTA Section */}
+          <FuturisticCTA />
+        </section>
       </div>
     </main>
   );
