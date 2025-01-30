@@ -50,58 +50,6 @@ export function ImageGenerator({ setimageUrls }: { setimageUrls: any }) {
     }
   };
 
-  // const handleGenerate = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const url =
-  //       mode === "text2img"
-  //         ? "https://modelslab.com/api/v6/realtime/text2img"
-  //         : "https://modelslab.com/api/v6/realtime/img2img";
-
-  //     const body =
-  //       mode === "text2img"
-  //         ? {
-  //             key: process.env.NEXT_PUBLIC_MODELSLAB_API_KEY,
-  //             prompt: formData.prompt,
-  //             negative_prompt: formData.negativePrompt,
-  //             width: formData.width,
-  //             height: formData.height,
-  //             safety_checker: formData.safetyChecker,
-  //             seed: formData.seed ? parseInt(formData.seed) : null,
-  //             samples: formData.samples,
-  //             base64: false,
-  //           }
-  //         : {
-  //             key: process.env.NEXT_PUBLIC_MODELSLAB_API_KEY,
-  //             prompt: formData.prompt,
-  //             negative_prompt: formData.negativePrompt,
-  //             init_image: formData.initImage,
-  //             width: formData.width,
-  //             height: formData.height,
-  //             safety_checker: formData.safetyChecker,
-  //             strength: formData.strength,
-  //             seed: formData.seed ? parseInt(formData.seed) : null,
-  //             samples: formData.samples,
-  //           };
-
-  //     const response = await fetch(url, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(body),
-  //     });
-
-  //     const data = await response.json();
-  //     console.log({ data });
-  //     setimageUrls(data.output);
-  //   } catch (error) {
-  //     console.error("Error generating image:", error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
   const handleGenerate = async () => {
     setLoading(true);
     try {
@@ -149,6 +97,7 @@ export function ImageGenerator({ setimageUrls }: { setimageUrls: any }) {
       if (data.status === "processing" && data.fetch_result) {
         // Poll the fetch_result URL until status is success
         await pollForCompletion(data.fetch_result);
+        setLoading(true);
       } else if (data.status === "success") {
         setimageUrls(data.output);
       } else {
@@ -177,6 +126,7 @@ export function ImageGenerator({ setimageUrls }: { setimageUrls: any }) {
 
       if (result.status === "success") {
         setimageUrls(result.output);
+        setLoading(false);
       } else if (result.status === "processing") {
         // Retry after the ETA if provided, or default to 2 seconds
         const retryDelay = result.eta ? result.eta * 1000 : 2000;
