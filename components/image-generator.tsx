@@ -23,30 +23,84 @@ import { Wand2, Loader2, Image } from "lucide-react";
 export function ImageGenerator({ setimageUrls }: { setimageUrls: any }) {
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState("text2img");
+
   const [formData, setFormData] = useState({
     prompt: "",
-    negativePrompt: "",
+    negativePrompt:
+      "bad quality, low resolution, blurry, poor lighting, unrealistic, not realistic",
     initImage: "",
     width: "768",
     height: "768",
     safetyChecker: true,
-    strength: 0.7,
+    strength: 0.4,
     seed: "",
     samples: 1,
   });
+
   const [imageFile, setImageFile] = useState<File | null>(null);
 
-  const handleImageUpload = async () => {
-    if (!imageFile) return;
+  const handleImageUpload = async (file: File) => {
+    if (!file) return;
     try {
-      // const uploadedUrl =
-      // "http://172.86.108.103:8008/uploads/1736514676559_SKS_Logo_CMYK_V2.png";
-      const uploadedUrl = await uploadToCloudinary(imageFile);
+      const uploadedUrl = await uploadToCloudinary(file);
       setFormData({ ...formData, initImage: uploadedUrl });
+      console.log({ uploadedUrl });
     } catch (error) {
       console.error("Error uploading image:", error);
     }
   };
+
+  // const handleGenerate = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const url =
+  //       mode === "text2img"
+  //         ? "https://modelslab.com/api/v6/realtime/text2img"
+  //         : "https://modelslab.com/api/v6/realtime/img2img";
+
+  //     const body =
+  //       mode === "text2img"
+  //         ? {
+  //             key: process.env.NEXT_PUBLIC_MODELSLAB_API_KEY,
+  //             prompt: formData.prompt,
+  //             negative_prompt: formData.negativePrompt,
+  //             width: formData.width,
+  //             height: formData.height,
+  //             safety_checker: formData.safetyChecker,
+  //             seed: formData.seed ? parseInt(formData.seed) : null,
+  //             samples: formData.samples,
+  //             base64: false,
+  //           }
+  //         : {
+  //             key: process.env.NEXT_PUBLIC_MODELSLAB_API_KEY,
+  //             prompt: formData.prompt,
+  //             negative_prompt: formData.negativePrompt,
+  //             init_image: formData.initImage,
+  //             width: formData.width,
+  //             height: formData.height,
+  //             safety_checker: formData.safetyChecker,
+  //             strength: formData.strength,
+  //             seed: formData.seed ? parseInt(formData.seed) : null,
+  //             samples: formData.samples,
+  //           };
+
+  //     const response = await fetch(url, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(body),
+  //     });
+
+  //     const data = await response.json();
+  //     console.log({ data });
+  //     setimageUrls(data.output);
+  //   } catch (error) {
+  //     console.error("Error generating image:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   const handleGenerate = async () => {
     setLoading(true);
@@ -91,12 +145,50 @@ export function ImageGenerator({ setimageUrls }: { setimageUrls: any }) {
       });
 
       const data = await response.json();
-      console.log({ data });
-      setimageUrls(data.output);
+
+      if (data.status === "processing" && data.fetch_result) {
+        // Poll the fetch_result URL until status is success
+        await pollForCompletion(data.fetch_result);
+      } else if (data.status === "success") {
+        setimageUrls(data.output);
+      } else {
+        console.error("Unexpected status:", data.status);
+      }
     } catch (error) {
       console.error("Error generating image:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const pollForCompletion = async (fetchUrl: any) => {
+    try {
+      const response = await fetch(fetchUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          key: process.env.NEXT_PUBLIC_MODELSLAB_API_KEY,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.status === "success") {
+        setimageUrls(result.output);
+      } else if (result.status === "processing") {
+        // Retry after the ETA if provided, or default to 2 seconds
+        const retryDelay = result.eta ? result.eta * 1000 : 2000;
+        setTimeout(() => pollForCompletion(fetchUrl), retryDelay);
+      } else {
+        console.error(
+          "Error fetching image status:",
+          result.message || "Unknown error"
+        );
+      }
+    } catch (error) {
+      console.error("Error polling fetch URL:", error);
     }
   };
 
@@ -241,7 +333,13 @@ export function ImageGenerator({ setimageUrls }: { setimageUrls: any }) {
         {mode === "img2img" && (
           <div className="space-y-4">
             {formData.initImage && formData.initImage !== "" ? (
-              <p>{formData.initImage}</p>
+              <img
+                src={formData.initImage}
+                alt="Initial Image"
+                width={100}
+                height={100}
+                className="object-cover rounded-2xl"
+              />
             ) : (
               <>
                 <Input
@@ -250,18 +348,19 @@ export function ImageGenerator({ setimageUrls }: { setimageUrls: any }) {
                   accept="image/*"
                   onChange={(e) => {
                     if (e.target.files && e.target.files[0]) {
-                      setImageFile(e.target.files[0]);
+                      // setImageFile(e.target.files[0]);
+                      handleImageUpload(e.target.files[0]);
                     }
                   }}
                   className="bg-secondary/50 border-0 rounded-2xl focus-visible:ring-1 focus-visible:ring-primary/50"
                 />
-                <Button
+                {/* <Button
                   onClick={handleImageUpload}
                   className="bg-secondary hover:bg-secondary/90 w-full rounded-2xl"
                   disabled={!imageFile}
                 >
                   Upload Image
-                </Button>
+                </Button> */}
               </>
             )}
           </div>
@@ -273,8 +372,8 @@ export function ImageGenerator({ setimageUrls }: { setimageUrls: any }) {
           onClick={handleGenerate}
           disabled={
             !formData.prompt ||
-            (mode === "img2img" && !formData.initImage) ||
-            loading
+            loading ||
+            (mode === "img2img" && !formData.initImage)
           }
         >
           <span className="flex items-center gap-2">
