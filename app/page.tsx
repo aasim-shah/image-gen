@@ -8,6 +8,7 @@ import { Features } from "@/components/features";
 import { Testimonials } from "@/components/testimonials";
 import Image from "next/image";
 import { useState } from "react";
+import TransparentNavbar from "@/components/navbar";
 
 export default function Home() {
   const [imageUrls, setimageUrls] = useState([]);
@@ -15,6 +16,9 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-[#0D0D0D] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-secondary/20 via-background to-background">
       {/* Hero Section */}
+      <div className="mt-32">
+        <TransparentNavbar />
+      </div>
       <div className="max-w-6xl mx-auto p-6 space-y-16">
         <div className="space-y-4 text-center pt-16 animate-fade-in">
           <div className="inline-block animate-float">
@@ -29,7 +33,10 @@ export default function Home() {
               PixArt
             </span>
           </h1>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+          <p
+            id="home"
+            className="text-muted-foreground text-lg max-w-2xl mx-auto"
+          >
             Transform your ideas into stunning images using advanced AI
             technology
           </p>

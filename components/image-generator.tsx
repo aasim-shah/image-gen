@@ -32,9 +32,9 @@ export function ImageGenerator({ setimageUrls }: { setimageUrls: any }) {
     width: "768",
     height: "768",
     safetyChecker: true,
-    strength: 0.4,
+    strength: 0.6,
     seed: "",
-    samples: 1,
+    samples: 3,
   });
 
   const [imageFile, setImageFile] = useState<File | null>(null);
@@ -52,6 +52,7 @@ export function ImageGenerator({ setimageUrls }: { setimageUrls: any }) {
 
   const handleGenerate = async () => {
     setLoading(true);
+    setimageUrls([]);
     try {
       const url =
         mode === "text2img"
@@ -219,29 +220,27 @@ export function ImageGenerator({ setimageUrls }: { setimageUrls: any }) {
             </div>
           )}
 
-          {mode === "text2img" && (
-            <div className="space-y-4 px-4">
-              <Label htmlFor="samples" className="font-medium">
-                Number of Images
-              </Label>
-              <div className="pt-2">
-                <Slider
-                  id="samples"
-                  min={1}
-                  max={5}
-                  step={1}
-                  value={[formData.samples]}
-                  onValueChange={([value]) =>
-                    setFormData({ ...formData, samples: value })
-                  }
-                  className="w-full"
-                />
-              </div>
-              <p className="text-sm text-muted-foreground text-right">
-                {formData.samples} {formData.samples === 1 ? "image" : "images"}
-              </p>
+          <div className="space-y-4 px-4">
+            <Label htmlFor="samples" className="font-medium">
+              Number of Images
+            </Label>
+            <div className="pt-2">
+              <Slider
+                id="samples"
+                min={1}
+                max={5}
+                step={1}
+                value={[formData.samples]}
+                onValueChange={([value]) =>
+                  setFormData({ ...formData, samples: value })
+                }
+                className="w-full"
+              />
             </div>
-          )}
+            <p className="text-sm text-muted-foreground text-right">
+              {formData.samples} {formData.samples === 1 ? "image" : "images"}
+            </p>
+          </div>
 
           <div className="grid grid-cols-2 gap-6">
             <Select
