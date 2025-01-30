@@ -109,3 +109,13 @@
   background-color: rgba(137, 134, 134, 0.2);
   border-radius: 1rem;
 }
+
+/* Add this to your global CSS or component styles */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for a cleaner look */
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none; /* Hide scrollbar for IE/Edge */
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
+}

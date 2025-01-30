@@ -9,18 +9,36 @@ import { Testimonials } from "@/components/testimonials";
 import Image from "next/image";
 import { useState } from "react";
 import TransparentNavbar from "@/components/navbar";
+import InfiniteScrollGallery from "@/components/image-scroll";
 
 export default function Home() {
   const [imageUrls, setimageUrls] = useState([]);
+  const images: string[] = [
+    "/a.png",
+    "/b.png",
+    "/c.jpg",
+    "/d.png",
+    "/e.jpg",
+    "/f.png",
+    "/g.png",
+    // Add more URLs here...
+  ];
+
   console.log({ imageUrls });
   return (
     <main className="min-h-screen bg-[#0D0D0D] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-secondary/20 via-background to-background">
       {/* Hero Section */}
-      <div className="mt-32 hidden md:flex">
+      <div className=" hidden md:flex">
         <TransparentNavbar />
       </div>
-      <div className="max-w-6xl mx-auto p-6 space-y-16">
-        <div className="space-y-4 text-center pt-16 animate-fade-in">
+
+      <div className="max-w-6xl relative mt-32 mx-auto p-6 space-y-16">
+        <div className="flex flex-col  gap-0 opacity-70 blur-sm z-30">
+          <InfiniteScrollGallery images={images} speed={20} isReserve={true} />
+          <InfiniteScrollGallery images={images} speed={1} isReserve={false} />
+          <InfiniteScrollGallery images={images} speed={40} isReserve={true} />
+        </div>
+        <div className="space-y-4 absolute text-center top-20 backdrop:blur-md animate-fade-in">
           <div className="inline-block animate-float">
             <div className="relative">
               <div className="absolute -inset-1 bg-gradient-to-r from-primary to-primary/50 rounded-full blur opacity-30"></div>
@@ -77,6 +95,8 @@ export default function Home() {
 
         {/* Features Section */}
         <Features />
+
+        {/* Images gallary */}
 
         {/* Testimonials Section */}
         <Testimonials />

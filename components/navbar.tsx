@@ -16,7 +16,7 @@ const TransparentNavbar = () => {
   return (
     <div>
       {/* Transparent Navbar */}
-      <Navbar className="navbar-glass fixed top-20 left-20 right-20 z-50">
+      <Navbar className="navbar-glass fixed top-20 left-20 right-20 lg:right-48 lg:left-48 z-50">
         <div className="flex justify-between items-center z-50 px-6  py-6">
           <h1 className="text-white font-bold ">PixArt</h1>
           <div className="space-x-4">
