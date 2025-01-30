@@ -16,7 +16,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-[#0D0D0D] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-secondary/20 via-background to-background">
       {/* Hero Section */}
-      <div className="mt-32">
+      <div className="mt-32 hidden md:flex">
         <TransparentNavbar />
       </div>
       <div className="max-w-6xl mx-auto p-6 space-y-16">
