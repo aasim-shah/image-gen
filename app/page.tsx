@@ -110,7 +110,7 @@ export default function Home() {
     );
   };
   return (
-    <main className="min-h-screen relative bg-[#0D0D0D] bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-secondary/20 via-background to-background">
+    <main className="min-h-screen relative ">
       {/* Hero Section */}
       <div className=" hidden md:flex">
         <TransparentNavbar />
@@ -137,7 +137,7 @@ export default function Home() {
               <Sparkles className="w-12 h-12 text-primary relative" />
             </div>
           </div>
-          <h1 className="text-3xl sm:text-7xl font-bold text-white">
+          <h1 className="text-3xl sm:text-7xl font-">
             Create Beautiful Art With{" "}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary/80 to-primary/50">
               <br />
@@ -154,7 +154,7 @@ export default function Home() {
           <div className="pt-4">
             <Button
               size="lg"
-              className="bg-primary rounded-2xl hover:bg-primary/90 text-white"
+              className="bg-primary rounded-2xl hover:bg-primary/"
             >
               Start Creating
             </Button>

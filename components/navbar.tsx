@@ -11,6 +11,7 @@ const Navbar = ({
   children: ReactNode;
 }) => <nav className={className}>{children}</nav>;
 import Link from "next/link";
+import { ThemeToggle } from "./theme-toggle";
 
 const TransparentNavbar = () => {
   return (
@@ -38,6 +39,7 @@ const TransparentNavbar = () => {
             >
               Generate
             </Link>
+            <ThemeToggle />
           </div>
         </div>
       </Navbar>

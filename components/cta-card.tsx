@@ -4,6 +4,7 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import { Points, PointMaterial } from "@react-three/drei";
 import { MathUtils } from "three";
+import { Card } from "./ui/card";
 
 const FloatingParticles = () => {
   const ref = useRef<any>();
@@ -37,7 +38,7 @@ const FloatingParticles = () => {
 
 const FuturisticCTA = () => {
   return (
-    <div className="relative glass-card rounded-2xl w-full h-72 flex flex-row-reverse justify-evenly items-center overflow-hidden">
+    <Card className="relative glass-card rounded-2xl w-full h-72 flex flex-row-reverse justify-evenly items-center overflow-hidden">
       <div className="w-5/12 h-56">
         {/* The canvas now takes up the whole space */}
         <Canvas className="w-full-full" camera={{ position: [0, 0, 7] }}>
@@ -50,19 +51,17 @@ const FuturisticCTA = () => {
       {/* Content inside the card */}
       <div className=" z-10 flex justify-evenly items-center text-center space-y-4 w-5/12 h-full p-8">
         <div className="">
-          <h2 className="text-3xl font-bold text-white drop-shadow-lg">
-            Ready to Create?
-          </h2>
-          <p className="text-muted-foreground mt-3 text-sm max-w-2xl mx-auto text-gray-300">
+          <h2 className="text-3xl ">Ready to Create?</h2>
+          <p className=" mt-3 text-sm max-w-2xl mx-auto text-muted-foreground">
             Join thousands of creators using AI to bring their imagination to
             life.
           </p>
-          <button className="bg-primary rounded-2xl hover:bg-primary/90 text-white mt-4 px-6 py-3 shadow-lg">
+          <button className="bg-primary text-primary-foreground rounded-2xl hover:bg-primary/90  mt-4 px-6 py-3 shadow-lg">
             Get Started Now
           </button>
         </div>
       </div>
-    </div>
+    </Card>
   );
 };
 
