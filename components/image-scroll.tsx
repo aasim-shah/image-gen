@@ -19,7 +19,7 @@ const InfiniteScrollGallery: React.FC<InfiniteScrollGalleryProps> = ({
       <motion.div
         className="flex whitespace-nowrap"
         animate={{
-          x: isReverse ? ["0%", "-200%"] : ["-200%", "0%"], // Travel 2x the width
+          x: isReverse ? ["0%", "-200%"] : ["-200%", "0%"],
         }}
         transition={{
           repeat: Infinity,
