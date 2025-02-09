@@ -17,7 +17,7 @@ const TransparentNavbar = () => {
   return (
     <div>
       {/* Transparent Navbar */}
-      <Navbar className="navbar-glass fixed top-20 left-20 right-20 lg:right-48 lg:left-48 z-50">
+      <Navbar className="navbar-glass fixed top-10 left-20 right-20 lg:right-48 lg:left-48 z-50">
         <div className="flex justify-between items-center z-50 px-6  py-6">
           <h1 className="text-white font-bold ">PixArt</h1>
           <div className="space-x-4">
@@ -25,19 +25,26 @@ const TransparentNavbar = () => {
               href={"/"}
               className="bg-transparent hover:text-primary/90 text-muted-foreground border-none"
             >
-              Home
+              Blogs
             </Link>
             <Link
               href={"#features"}
               className="bg-transparent hover:text-primary/90 text-muted-foreground border-none"
             >
-              Features
+              Tools{" "}
             </Link>
+            <Link
+              href={"/"}
+              className="bg-transparent hover:text-primary/90 text-muted-foreground border-none"
+            >
+              Sign In
+            </Link>
+
             <Link
               href={"#home"}
               className="bg-primary hover:text-primary/90 py-2 px-4 rounded-full text-white border-none"
             >
-              Generate
+              Lanuch App
             </Link>
             <ThemeToggle />
           </div>

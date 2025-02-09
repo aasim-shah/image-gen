@@ -38,8 +38,8 @@ const FloatingParticles = () => {
 
 const FuturisticCTA = () => {
   return (
-    <Card className="relative glass-card rounded-2xl w-full h-72 flex flex-row-reverse justify-evenly items-center overflow-hidden">
-      <div className="w-5/12 h-56">
+    <Card className="relative glass-card rounded-2xl w-full h-72 flex flex-col lg:flex-row-reverse justify-evenly items-center overflow-hidden">
+      <div className="lg:w-5/12 hidden lg:flex h-56">
         {/* The canvas now takes up the whole space */}
         <Canvas className="w-full-full" camera={{ position: [0, 0, 7] }}>
           <ambientLight intensity={0.5} />
@@ -49,7 +49,7 @@ const FuturisticCTA = () => {
       </div>
 
       {/* Content inside the card */}
-      <div className=" z-10 flex justify-evenly items-center text-center space-y-4 w-5/12 h-full p-8">
+      <div className=" z-10 flex justify-evenly items-center text-center space-y-4 lg:w-5/12 h-full p-8">
         <div className="">
           <h2 className="text-3xl ">Ready to Create?</h2>
           <p className=" mt-3 text-sm max-w-2xl mx-auto text-muted-foreground">

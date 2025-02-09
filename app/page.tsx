@@ -17,6 +17,10 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import { Points, PointMaterial } from "@react-three/drei";
 import { MathUtils } from "three";
+import ScrollTriggerSlider from "@/components/scrolling-cards";
+import WhatsAppButton from "@/components/dragable-button";
+import DownloadAppSection from "@/components/download-app";
+import DownloadSection from "@/components/download-app";
 
 export default function Home() {
   const [imageUrls, setimageUrls] = useState([]);
@@ -187,6 +191,10 @@ export default function Home() {
             </div>
           </div>
 
+          <div className="my-20">
+            <ScrollTriggerSlider />
+          </div>
+
           {/* Features Section */}
           <Features />
 
@@ -207,10 +215,17 @@ export default function Home() {
           {/* Testimonials Section */}
           <Testimonials />
 
+          {/* downlaod app */}
+          <DownloadSection />
+
           {/* CTA Section */}
           <FuturisticCTA />
         </section>
       </div>
+      <WhatsAppButton
+        phoneNumber="923001234567"
+        message="Hi, I'm interested!"
+      />
     </main>
   );
 }

@@ -126,7 +126,7 @@
 }
 
 .navbar-glass {
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(6px);
   background-color: rgba(137, 134, 134, 0.2);
   border-radius: 1rem;
 }
