@@ -26,7 +26,7 @@ const DownloadSection = () => {
             </p>
             <div className="flex flex-row gap-4 items-center justify-center ">
               <Image
-                src="/ios.svg"
+                src="/Ios.svg"
                 alt="App Store Badge"
                 width={130}
                 height={60}
