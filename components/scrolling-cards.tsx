@@ -81,6 +81,11 @@ const images = [
   { src: "/a.png", text: "This is the first image description." },
   { src: "/b.png", text: "This is the second image description." },
   { src: "/c.jpg", text: "This is the third image description." },
+  { src: "/a.png", text: "This is the first image description." },
+  { src: "/b.png", text: "This is the second image description." },
+  { src: "/c.jpg", text: "This is the third image description." },
+  { src: "/a.png", text: "This is the first image description." },
+  { src: "/b.png", text: "This is the second image description." },
   { src: "/d.png", text: "This is the fourth image description." },
 ];
 
@@ -133,12 +138,12 @@ export default function ScrollTriggerSlider() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
           >
-            <div className="mb-10 mx-auto  w-32  ">
+            <div className="mb-10 mx-auto  w-32 bg-muted-foreground h-1 rounded-full">
               <motion.div
                 transition={{ duration: 0.5, ease: "easeInOut" }}
                 initial={{ width: 0 }}
                 animate={{ width: `${(index / images.length) * 100}%` }}
-                className="h-1 bg-primary rounded-full w-full"
+                className="h-1 bg-primary rounded-full "
               ></motion.div>
             </div>
             <h2 className="lg:text-5xl font-bold mb-6">{images[index].text}</h2>
