@@ -17,10 +17,12 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import { Points, PointMaterial } from "@react-three/drei";
 import { MathUtils } from "three";
-import ScrollTriggerSlider from "@/components/scrolling-cards";
+import ScrollTriggerSlider from "@/components/scrolling-cards-old";
 import WhatsAppButton from "@/components/dragable-button";
 import DownloadAppSection from "@/components/download-app";
 import DownloadSection from "@/components/download-app";
+import Link from "next/link";
+import ScrollingCards from "@/components/scrolling-cards";
 
 export default function Home() {
   const [imageUrls, setimageUrls] = useState([]);
@@ -113,6 +115,7 @@ export default function Home() {
       </group>
     );
   };
+
   return (
     <main className="min-h-screen relative ">
       {/* Hero Section */}
@@ -156,18 +159,18 @@ export default function Home() {
             technology
           </p>
           <div className="pt-4">
-            <Button
-              size="lg"
-              className="bg-primary rounded-2xl hover:bg-primary/"
+            <Link
+              href="#generateImage"
+              className="bg-primary rounded-2xl py-2 px-4 hover:bg-primary/"
             >
               Start Creating
-            </Button>
+            </Link>
           </div>
         </div>
 
-        <section className="w-10/12 mx-auto max-w-6xl">
+        <section id="generateImage" className="w-full mx-auto max-w-8xl">
           {/* Main Content */}
-          <div className="grid grid-cols-1  gap-8">
+          <div className="grid grid-cols-1 w-10/12 mx-auto  gap-8">
             <div className="transition-all duration-300">
               <ImageGenerator setimageUrls={setimageUrls} />
             </div>
@@ -191,35 +194,38 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="my-20">
-            <ScrollTriggerSlider />
+          <div className="my-20  lg:pl-32 ">
+            {/* <ScrollTriggerSlider /> */}
+            <ScrollingCards />
           </div>
 
-          {/* Features Section */}
-          <Features />
+          <section className="w-10/12 mx-auto max-w-6xl">
+            {/* Features Section */}
+            <Features />
 
-          {/* Images gallary */}
-          <div className="flex flex-col">
-            <InfiniteScrollGallery
-              images={images}
-              speed={60}
-              isReverse={true}
-            />
-            <InfiniteScrollGallery
-              images={images}
-              speed={60}
-              isReverse={false}
-            />
-          </div>
+            {/* Images gallary */}
+            <div className="flex flex-col">
+              <InfiniteScrollGallery
+                images={images}
+                speed={60}
+                isReverse={true}
+              />
+              <InfiniteScrollGallery
+                images={images}
+                speed={60}
+                isReverse={false}
+              />
+            </div>
 
-          {/* Testimonials Section */}
-          <Testimonials />
+            {/* Testimonials Section */}
+            <Testimonials />
 
-          {/* downlaod app */}
-          <DownloadSection />
+            {/* downlaod app */}
+            <DownloadSection />
 
-          {/* CTA Section */}
-          <FuturisticCTA />
+            {/* CTA Section */}
+            <FuturisticCTA />
+          </section>
         </section>
       </div>
       <WhatsAppButton

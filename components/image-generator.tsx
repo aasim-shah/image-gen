@@ -228,7 +228,7 @@ export function ImageGenerator({ setimageUrls }: { setimageUrls: any }) {
               <Slider
                 id="samples"
                 min={1}
-                max={5}
+                max={4}
                 step={1}
                 value={[formData.samples]}
                 onValueChange={([value]) =>
