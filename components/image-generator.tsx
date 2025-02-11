@@ -34,7 +34,7 @@ export function ImageGenerator({ setimageUrls }: { setimageUrls: any }) {
     safetyChecker: true,
     strength: 0.6,
     seed: "",
-    samples: 3,
+    samples: 2,
   });
 
   const [imageFile, setImageFile] = useState<File | null>(null);

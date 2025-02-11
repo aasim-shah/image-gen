@@ -5,15 +5,31 @@ import { motion } from "framer-motion";
 
 export default function ScrollingCards() {
   const images = [
-    { src: "/a.png", text: "This is the first image description." },
-    { src: "/b.png", text: "This is the second image description." },
-    { src: "/c.jpg", text: "This is the third image description." },
-    { src: "/a.png", text: "This is the first image description." },
-    { src: "/b.png", text: "This is the second image description." },
-    { src: "/c.jpg", text: "This is the third image description." },
-    { src: "/a.png", text: "This is the first image description." },
-    { src: "/b.png", text: "This is the second image description." },
-    { src: "/d.png", text: "This is the fourth image description." },
+    {
+      src: "/a.png",
+      title: "Text to Image",
+      text: "Ignite your creative spark with Imagine AI Image Generator. Describe your vision with words, and watch the powerful tool translate them into captivating artwork. Catalyze a flurry of ideas and conquer creative roadblocks.",
+    },
+    {
+      src: "/b.png",
+      title: "Real Time Generation",
+      text: "Witness your ideas blended with Imagine AI Image Generator as Real-Time Generation lets you sketch and see your creation come to life before your eyes. Refine as you go for a seamless experience..",
+    },
+    {
+      src: "/c.jpg",
+      title: "Ideate",
+      text: "Imagine AI Image Generator brings you Ideate that empowers you to paint with an intelligent brush. Simply describe elements, watch them appear instantly, and refine your artwork for an intuitive creative experience",
+    },
+    {
+      src: "/d.png",
+      title: "Text to Image",
+      text: "Ignite your creative spark with Imagine AI Image Generator. Describe your vision with words, and watch the powerful tool translate them into captivating artwork. Catalyze a flurry of ideas and conquer creative roadblocks.",
+    },
+    {
+      src: "/e.jpg",
+      title: "Real Time Generation",
+      text: "Witness your ideas blended with Imagine AI Image Generator as Real-Time Generation lets you sketch and see your creation come to life before your eyes. Refine as you go for a seamless experience..",
+    },
   ];
 
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -36,7 +52,7 @@ export default function ScrollingCards() {
   return (
     <div
       ref={containerRef}
-      className="w-full flex-col h-[60vh] overflow-y-scroll scrollbar-hide"
+      className="w-full flex-col h-[50vh] overflow-y-scroll scrollbar-hide"
     >
       {images.slice(0, 5).map((image, index) => (
         <div
@@ -46,7 +62,7 @@ export default function ScrollingCards() {
           } justify-center`}
         >
           <div className="w-1/2 flex items-center justify-center">
-            <div className="h-96 w-full">
+            <div className="h-92 rounded-2xl w-10/12 mx-auto">
               <Image
                 src={image.src}
                 alt={`Image ${index + 1}`}
@@ -58,16 +74,19 @@ export default function ScrollingCards() {
           </div>
           <div className="w-1/2 text-left">
             {currentSlide === index && (
-              <div className="p-5 flex justify-center items-center flex-col">
-                <div className="mb-10 mx-auto  w-32 bg-muted-foreground h-1 rounded-full">
+              <div className="px-10 flex  flex-col">
+                {/* <div className="mb-10 w-32 bg-muted-foreground h-1 rounded-full">
                   <motion.div
-                    transition={{ duration: 0.5, ease: "easeInOut" }}
+                    transition={{ duration: 0.7, ease: "easeInOut" }}
                     initial={{ width: 0 }}
                     animate={{ width: `${(index / images.length) * 100}%` }}
                     className="h-1 bg-primary rounded-full "
                   ></motion.div>
-                </div>
-                <p className="text-xl font-bold mb-6">{image.text}</p>
+                </div> */}
+                <p className="text-xl font-bold mb-6">{image.title}</p>
+                <p className="text-sm mb-6 text-muted-foreground">
+                  {image.text}
+                </p>
               </div>
             )}
           </div>

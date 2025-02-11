@@ -17,7 +17,6 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { useRef } from "react";
 import { Points, PointMaterial } from "@react-three/drei";
 import { MathUtils } from "three";
-import ScrollTriggerSlider from "@/components/scrolling-cards-old";
 import WhatsAppButton from "@/components/dragable-button";
 import DownloadAppSection from "@/components/download-app";
 import DownloadSection from "@/components/download-app";
