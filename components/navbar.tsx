@@ -23,19 +23,19 @@ const TransparentNavbar = () => {
           <div className="space-x-4">
             <Link
               href={"/"}
-              className="bg-transparent hover:text-primary/90 text-muted-foreground border-none"
+              className="bg-transparent hover:text-primary/90  border-none"
             >
               Blogs
             </Link>
             <Link
               href={"#features"}
-              className="bg-transparent hover:text-primary/90 text-muted-foreground border-none"
+              className="bg-transparent hover:text-primary/90  border-none"
             >
               Tools{" "}
             </Link>
             <Link
               href={"/"}
-              className="bg-transparent hover:text-primary/90 text-muted-foreground border-none"
+              className="bg-transparent hover:text-primary/90  border-none"
             >
               Sign In
             </Link>

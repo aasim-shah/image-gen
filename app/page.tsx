@@ -131,12 +131,12 @@ export default function Home() {
       </div>
 
       <div className=" relative mt-32 mx-auto p-6 space-y-16">
-        <div className="flex flex-col w-full  gap-0 opacity-80 blur-sm  z-30">
+        <div className="flex flex-col w-full  gap-0 opacity-50 blur-sm  z-30">
           <InfiniteScrollGallery images={images} speed={30} isReverse={true} />
           <InfiniteScrollGallery images={images} speed={60} isReverse={false} />
           <InfiniteScrollGallery images={images} speed={30} isReverse={true} />
         </div>
-        <div className="space-y-4 backdrop:blur-lg lg:left-[20%] absolute text-center top-20  animate-fade-in">
+        <div className="space-y-4  lg:left-[20%] absolute text-center top-20 py-10 animate-fade  bg-gradient-radial from-black via-transparent to-transparent  bg-center">
           <div className="inline-block animate-float">
             <div className="relative">
               <div className="absolute -inset-1 bg-gradient-to-r from-primary to-primary/50 rounded-full blur opacity-30"></div>
@@ -150,10 +150,7 @@ export default function Home() {
               PixArt
             </span>
           </h1>
-          <p
-            id="home"
-            className="text-muted-foreground text-lg max-w-2xl mx-auto"
-          >
+          <p id="home" className=" text-lg max-w-2xl mx-auto">
             Transform your ideas into stunning images using advanced AI
             technology
           </p>

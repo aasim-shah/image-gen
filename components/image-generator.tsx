@@ -29,12 +29,12 @@ export function ImageGenerator({ setimageUrls }: { setimageUrls: any }) {
     negativePrompt:
       "bad quality, low resolution, blurry, poor lighting, unrealistic, not realistic",
     initImage: "",
-    width: "768",
-    height: "768",
+    width: "1024",
+    height: "1024",
     safetyChecker: true,
     strength: 0.6,
     seed: "",
-    samples: 2,
+    samples: 1,
   });
 
   const [imageFile, setImageFile] = useState<File | null>(null);
