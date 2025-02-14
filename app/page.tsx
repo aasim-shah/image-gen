@@ -169,6 +169,7 @@ export default function Home() {
           <div className="grid grid-cols-1 w-10/12 mx-auto  gap-8">
             <div className="transition-all duration-300">
               <ImageGenerator setimageUrls={setimageUrls} />
+              {/* <GenerateImage /> */}
             </div>
             <div className="grid grid-cols-2  gap-4 stagger-animation">
               {imageUrls.length > 0 &&

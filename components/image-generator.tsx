@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -9,6 +9,8 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Skeleton } from "@/components/ui/skeleton";
 import { uploadToCloudinary } from "@/lib/cloudinary";
+import { RootState } from "../app/store/store";
+
 import {
   Select,
   SelectContent,
@@ -18,11 +20,32 @@ import {
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { Wand2, Loader2, Image } from "lucide-react";
+
+import Together from "together-ai";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../app/store/store";
+import { fetchAIModels } from "@/app/store/features/aiModels";
+import AIModels, { AIModel } from "./ai-models";
+
+const together = new Together({
+  apiKey: "58c087e15a57412ba6a7b19b01257f649467f3a4ff68a3983fa8c375816332cb",
+});
+
 // import { uploadToCloudinary } from "@/utils/cloudinary"; // Assuming a utility for Cloudinary upload
 
 export function ImageGenerator({ setimageUrls }: { setimageUrls: any }) {
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState("text2img");
+
+  const dispatch: AppDispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchAIModels());
+  }, [dispatch]);
+
+  const models = useSelector((state: RootState) => state.models.models);
+  console.log({ models });
 
   const [formData, setFormData] = useState({
     prompt: "",
@@ -50,60 +73,77 @@ export function ImageGenerator({ setimageUrls }: { setimageUrls: any }) {
     }
   };
 
+  const selectedModel = useSelector(
+    (state: RootState) => state.models.selectedModel
+  ) as AIModel;
+
   const handleGenerate = async () => {
     setLoading(true);
     setimageUrls([]);
     try {
-      const url =
-        mode === "text2img"
-          ? "https://modelslab.com/api/v6/realtime/text2img"
-          : "https://modelslab.com/api/v6/realtime/img2img";
+      //   const url =
+      //     mode === "text2img"
+      //       ? "https://modelslab.com/api/v6/realtime/text2img"
+      //       : "https://modelslab.com/api/v6/realtime/img2img";
 
-      const body =
-        mode === "text2img"
-          ? {
-              key: process.env.NEXT_PUBLIC_MODELSLAB_API_KEY,
-              prompt: formData.prompt,
-              negative_prompt: formData.negativePrompt,
-              width: formData.width,
-              height: formData.height,
-              safety_checker: formData.safetyChecker,
-              seed: formData.seed ? parseInt(formData.seed) : null,
-              samples: formData.samples,
-              base64: false,
-            }
-          : {
-              key: process.env.NEXT_PUBLIC_MODELSLAB_API_KEY,
-              prompt: formData.prompt,
-              negative_prompt: formData.negativePrompt,
-              init_image: formData.initImage,
-              width: formData.width,
-              height: formData.height,
-              safety_checker: formData.safetyChecker,
-              strength: formData.strength,
-              seed: formData.seed ? parseInt(formData.seed) : null,
-              samples: formData.samples,
-            };
+      //   const body =
+      //     mode === "text2img"
+      //       ? {
+      //           key: process.env.NEXT_PUBLIC_MODELSLAB_API_KEY,
+      //           prompt: formData.prompt,
+      //           negative_prompt: formData.negativePrompt,
+      //           width: formData.width,
+      //           height: formData.height,
+      //           safety_checker: formData.safetyChecker,
+      //           seed: formData.seed ? parseInt(formData.seed) : null,
+      //           samples: formData.samples,
+      //           base64: false,
+      //         }
+      //       : {
+      //           key: process.env.NEXT_PUBLIC_MODELSLAB_API_KEY,
+      //           prompt: formData.prompt,
+      //           negative_prompt: formData.negativePrompt,
+      //           init_image: formData.initImage,
+      //           width: formData.width,
+      //           height: formData.height,
+      //           safety_checker: formData.safetyChecker,
+      //           strength: formData.strength,
+      //           seed: formData.seed ? parseInt(formData.seed) : null,
+      //           samples: formData.samples,
+      //         };
 
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
+      //   const response = await fetch(url, {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //     body: JSON.stringify(body),
+      //   });
+
+      //   const data = await response.json();
+
+      //   if (data.status === "processing" && data.fetch_result) {
+      //     // Poll the fetch_result URL until status is success
+      //     await pollForCompletion(data.fetch_result);
+      //     setLoading(true);
+      //   } else if (data.status === "success") {
+      //     setimageUrls(data.output);
+      //   } else {
+      //     console.error("Unexpected status:", data.status);
+      //   }
+
+      console.log({ prompts: selectedModel });
+      const response = await together.images.create({
+        model: selectedModel?.model_id,
+        steps: 4,
+        n: 1,
+        height: Number(formData.height),
+        width: Number(formData.width),
+        guidance: 3.5,
+        prompt: `${formData.prompt} ${selectedModel?.prompt_engineering}`,
       });
-
-      const data = await response.json();
-
-      if (data.status === "processing" && data.fetch_result) {
-        // Poll the fetch_result URL until status is success
-        await pollForCompletion(data.fetch_result);
-        setLoading(true);
-      } else if (data.status === "success") {
-        setimageUrls(data.output);
-      } else {
-        console.error("Unexpected status:", data.status);
-      }
+      const urlsOnly = response?.data.map((i: any) => i.url);
+      setimageUrls(urlsOnly);
     } catch (error) {
       console.error("Error generating image:", error);
     } finally {
@@ -157,8 +197,8 @@ export function ImageGenerator({ setimageUrls }: { setimageUrls: any }) {
 
   return (
     <Card className="rounded-2xl p-8 space-y-6">
-      <div className="flex justify-between items-center">
-        <Label className="font-medium">Mode</Label>
+      {/* <div className="flex justify-between items-center"> */}
+      {/* <Label className="font-medium">Mode</Label>
         <Select value={mode} onValueChange={(value) => setMode(value)}>
           <SelectTrigger className="bg-secondary/50 border-0 rounded-2xl">
             <SelectValue placeholder="Select mode" />
@@ -167,8 +207,8 @@ export function ImageGenerator({ setimageUrls }: { setimageUrls: any }) {
             <SelectItem value="text2img">Text to Image</SelectItem>
             <SelectItem value="img2img">Image to Image</SelectItem>
           </SelectContent>
-        </Select>
-      </div>
+        </Select> */}
+      {/* </div> */}
 
       <div className="space-y-6 animate-slide-up">
         <div className="space-y-2">
@@ -176,7 +216,7 @@ export function ImageGenerator({ setimageUrls }: { setimageUrls: any }) {
             id="prompt"
             placeholder="Describe what you want to generate..."
             value={formData.prompt}
-            rows={4}
+            rows={8}
             onChange={(e) =>
               setFormData({ ...formData, prompt: e.target.value })
             }
@@ -184,8 +224,12 @@ export function ImageGenerator({ setimageUrls }: { setimageUrls: any }) {
           />
         </div>
 
+        <div className="">
+          <AIModels />
+        </div>
+
         <>
-          <div className="space-y-2">
+          {/* <div className="space-y-2">
             <Textarea
               id="negativePrompt"
               placeholder="Specify elements to avoid..."
@@ -196,7 +240,7 @@ export function ImageGenerator({ setimageUrls }: { setimageUrls: any }) {
               }
               className="rounded-2xl resize-none p-4 bg-secondary/50 border-0 focus-visible:ring-1 focus-visible:ring-primary/50 placeholder:text-muted-foreground/50"
             />
-          </div>
+          </div> */}
 
           {mode === "img2img" && (
             <div className="space-y-4 px-4">
@@ -220,7 +264,7 @@ export function ImageGenerator({ setimageUrls }: { setimageUrls: any }) {
             </div>
           )}
 
-          <div className="space-y-4 px-4">
+          {/* <div className="space-y-4 px-4">
             <Label htmlFor="samples" className="font-medium">
               Number of Images
             </Label>
@@ -240,7 +284,7 @@ export function ImageGenerator({ setimageUrls }: { setimageUrls: any }) {
             <p className="text-sm text-muted-foreground text-right">
               {formData.samples} {formData.samples === 1 ? "image" : "images"}
             </p>
-          </div>
+          </div> */}
 
           <div className="grid grid-cols-2 gap-6">
             <Select
