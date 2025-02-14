@@ -185,12 +185,17 @@ export function ImageGenerator({ setimageUrls }: { setimageUrls: any }) {
 
   if (loading) {
     return (
-      <Card className="glass-card p-8 space-y-6">
+      <Card className="glass-card p-8  space-y-6">
         <div className="space-y-6">
-          <Skeleton className="h-6 w-32" />
-          <Skeleton className="h-32 w-full" />
+          <Skeleton className="h-6 w-32 rounded-xl" />
+          <Skeleton className="h-32 w-full rounded-xl" />
         </div>
-        <Skeleton className="h-10 w-full" />
+        <div className="flex">
+          <Skeleton className="h-10 w-1/2 mr-4 rounded-xl" />
+          <Skeleton className="h-10 w-1/2 rounded-xl" />
+        </div>
+        <Skeleton className="h-10 mb-4 w-full rounded-xl" />
+        <Skeleton className="h-10 w-full rounded-xl" />
       </Card>
     );
   }

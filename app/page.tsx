@@ -10,7 +10,12 @@ import Image from "next/image";
 import { useState } from "react";
 import TransparentNavbar from "@/components/navbar";
 import InfiniteScrollGallery from "@/components/image-scroll";
+import { saveAs } from "file-saver";
+import { FaHeart } from "react-icons/fa6";
+
 import FancyCTA from "@/components/cta-card";
+import { Heart, Download } from "lucide-react"; // Ensure you have these icons installed
+
 import FuturisticCTA from "@/components/cta-card";
 
 import { Canvas, useFrame } from "@react-three/fiber";
@@ -25,6 +30,8 @@ import ScrollingCards from "@/components/scrolling-cards";
 
 export default function Home() {
   const [imageUrls, setimageUrls] = useState([]);
+  const [favorites, setFavorites] = useState<string[]>([]);
+
   const images: string[] = [
     "/a.png",
     "/b.png",
@@ -115,6 +122,18 @@ export default function Home() {
     );
   };
 
+  // Function to handle downloading an image
+  const download = (url: string) => {
+    saveAs(url, "image.jpg");
+  };
+
+  // Function to toggle favorite state
+  const toggleFavorite = (url: string) => {
+    setFavorites((prev) =>
+      prev.includes(url) ? prev.filter((item) => item !== url) : [...prev, url]
+    );
+  };
+
   return (
     <main className="min-h-screen relative ">
       {/* Hero Section */}
@@ -157,7 +176,7 @@ export default function Home() {
           <div className="pt-4">
             <Link
               href="#generateImage"
-              className="bg-primary rounded-2xl py-2 px-4 hover:bg-primary/"
+              className="bg-primary text-sm rounded-2xl py-3 px-6 hover:bg-primary/90"
             >
               Start Creating
             </Link>
@@ -171,20 +190,38 @@ export default function Home() {
               <ImageGenerator setimageUrls={setimageUrls} />
               {/* <GenerateImage /> */}
             </div>
-            <div className="grid grid-cols-2  gap-4 stagger-animation">
+            <div className="grid grid-cols-2 gap-4 stagger-animation">
               {imageUrls.length > 0 &&
                 imageUrls.map((i: string) => (
                   <Card
                     key={i}
-                    className=" w-full lg:w-72 rounded-2xl glass-card flex items-center justify-center group hover:border-primary/50 transition-all duration-300"
+                    className="relative w-full lg:w-96 rounded-2xl glass-card flex items-center justify-center group hover:border-primary/50 transition-all duration-300"
                   >
-                    {/* <ImageIcon className="h-8 w-8 text-muted-foreground/50 group-hover:text-primary/50 transition-colors" /> */}
+                    {/* Icon container positioned at top-right */}
+                    <div className="absolute top-2 right-2 flex space-x-2">
+                      {/* check if favoirite then fill it with primary colour else outline */}
+                      <Button
+                        onClick={() => toggleFavorite(i)}
+                        className="bg-secondary p-2 rounded-full h-8 w-8 m-0 hover:bg-secondary/50 transition-colors"
+                      >
+                        {favorites.includes(i) ? (
+                          <FaHeart className={`h-5 w-5 text-primary`} />
+                        ) : (
+                          <Heart className={`h-5 w-5 `} />
+                        )}
+                      </Button>
+                      <Download
+                        // onClick={() => handleDownload(i)}
+                        onClick={() => download(i)}
+                        className="bg-secondary p-2 rounded-full h-8 w-8 m-0 hover:bg-secondary/50 transition-colors"
+                      />
+                    </div>
                     <Image
                       src={i}
                       alt="Generated Image"
                       width={300}
                       height={400}
-                      className="object-cover rounded-2xl"
+                      className="object-cover w-full h-full rounded-2xl"
                     />
                   </Card>
                 ))}

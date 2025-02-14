@@ -61,7 +61,7 @@ export default function ScrollingCards() {
             index % 2 === 0 ? index : index + 1
           } justify-center`}
         >
-          <div className="w-1/2 flex items-center justify-center">
+          <div className="w-1/2 flex items-center  justify-center">
             <div className="h-92 rounded-2xl w-10/12 mx-auto">
               <Image
                 src={image.src}

@@ -101,6 +101,8 @@ const aiModelsSlice = createSlice({
       })
       .addCase(fetchAIModels.fulfilled, (state, action) => {
         state.models = action.payload;
+        state.selectedModel =
+          state.models.find((model) => model.default) || null;
         state.isLoading = false;
       })
       .addCase(fetchAIModels.rejected, (state, action) => {
