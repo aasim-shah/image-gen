@@ -195,6 +195,8 @@ export function ImageGenerator({ setimageUrls }: { setimageUrls: any }) {
     );
   }
 
+  // hhh
+
   return (
     <Card className="rounded-2xl p-8 space-y-6">
       {/* <div className="flex justify-between items-center"> */}
