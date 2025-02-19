@@ -37,9 +37,6 @@ import Link from "next/link";
 import ScrollingCards from "@/components/scrolling-cards";
 import RecentlyGeneratedImages from "@/components/recently-generated-images";
 
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
 export default function Home() {
   const [imageUrls, setimageUrls] = useState([]);
   const [favorites, setFavorites] = useState<string[]>([]);
@@ -289,7 +286,7 @@ export default function Home() {
 
           <div className="my-20  mx-auto w-10/12  ">
             {/* <ScrollTriggerSlider /> */}
-            <RecentlyGeneratedImages />
+            <RecentlyGeneratedImages imageUrls={imageUrls} />
           </div>
 
           <div ref={containerRef} className="my-20 relative  lg:pl-20 ">
