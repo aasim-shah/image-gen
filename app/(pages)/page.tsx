@@ -2,12 +2,20 @@
 
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ImageIcon, Wand2, Sparkles, Code, Zap, Shield } from "lucide-react";
+import {
+  ImageIcon,
+  Wand2,
+  Sparkles,
+  Code,
+  Zap,
+  Shield,
+  Images,
+} from "lucide-react";
 import { ImageGenerator } from "@/components/image-generator";
 import { Features } from "@/components/features";
 import { Testimonials } from "@/components/testimonials";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TransparentNavbar from "@/components/navbar";
 import InfiniteScrollGallery from "@/components/image-scroll";
 import { saveAs } from "file-saver";
@@ -27,10 +35,17 @@ import DownloadAppSection from "@/components/download-app";
 import DownloadSection from "@/components/download-app";
 import Link from "next/link";
 import ScrollingCards from "@/components/scrolling-cards";
+import RecentlyGeneratedImages from "@/components/recently-generated-images";
+
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export default function Home() {
   const [imageUrls, setimageUrls] = useState([]);
   const [favorites, setFavorites] = useState<string[]>([]);
+
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const images: string[] = [
     "/a.png",
@@ -92,6 +107,34 @@ export default function Home() {
     // Add more URLs here...
   ];
 
+  const imagesForScroll = [
+    {
+      src: "/a.png",
+      title: "Text to Image",
+      text: "Ignite your creative spark with Imagine AI Image Generator. Describe your vision with words, and watch the powerful tool translate them into captivating artwork. Catalyze a flurry of ideas and conquer creative roadblocks.",
+    },
+    {
+      src: "/b.png",
+      title: "Real Time Generation",
+      text: "Witness your ideas blended with Imagine AI Image Generator as Real-Time Generation lets you sketch and see your creation come to life before your eyes. Refine as you go for a seamless experience..",
+    },
+    {
+      src: "/c.jpg",
+      title: "Ideate",
+      text: "Imagine AI Image Generator brings you Ideate that empowers you to paint with an intelligent brush. Simply describe elements, watch them appear instantly, and refine your artwork for an intuitive creative experience",
+    },
+    {
+      src: "/d.png",
+      title: "Text to Image",
+      text: "Ignite your creative spark with Imagine AI Image Generator. Describe your vision with words, and watch the powerful tool translate them into captivating artwork. Catalyze a flurry of ideas and conquer creative roadblocks.",
+    },
+    {
+      src: "/e.jpg",
+      title: "Real Time Generation",
+      text: "Witness your ideas blended with Imagine AI Image Generator as Real-Time Generation lets you sketch and see your creation come to life before your eyes. Refine as you go for a seamless experience..",
+    },
+  ];
+
   const FloatingParticles = () => {
     const ref = useRef<any>();
 
@@ -134,12 +177,28 @@ export default function Home() {
     );
   };
 
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) {
+      console.log("no container");
+      return;
+    }
+
+    const handleScroll = () => {
+      const { scrollTop, clientHeight } = container;
+      console.log({ scrollTop, clientHeight });
+      const slideIndex = Math.floor(scrollTop / clientHeight);
+      console.log({ slideIndex });
+      setCurrentSlide(slideIndex);
+    };
+
+    container.addEventListener("scroll", handleScroll);
+    return () => container.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <main className="min-h-screen relative ">
+    <main className="min-h-screen relative">
       {/* Hero Section */}
-      <div className=" hidden md:flex">
-        <TransparentNavbar />
-      </div>
 
       <div className="absolute top-29 left-0 w-full h-96">
         <Canvas className="w-full-full" camera={{ position: [0, 0, 7] }}>
@@ -149,7 +208,7 @@ export default function Home() {
         </Canvas>
       </div>
 
-      <div className=" relative mt-32 mx-auto p-6 space-y-16">
+      <div className=" relative  mx-auto p-6 space-y-16">
         <div className="flex flex-col w-full  gap-0 opacity-50 blur-sm  z-30">
           <InfiniteScrollGallery images={images} speed={30} isReverse={true} />
           <InfiniteScrollGallery images={images} speed={60} isReverse={false} />
@@ -175,10 +234,10 @@ export default function Home() {
           </p>
           <div className="pt-4">
             <Link
-              href="#generateImage"
+              href="/inspirations"
               className="bg-primary text-sm rounded-2xl py-3 px-6 hover:bg-primary/90"
             >
-              Start Creating
+              Inspirations
             </Link>
           </div>
         </div>
@@ -228,9 +287,43 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="my-20  lg:pl-32 ">
+          <div className="my-20  mx-auto w-10/12  ">
             {/* <ScrollTriggerSlider /> */}
-            <ScrollingCards />
+            <RecentlyGeneratedImages />
+          </div>
+
+          <div ref={containerRef} className="my-20 relative  lg:pl-20 ">
+            {/* <ScrollingCards /> */}
+            {/* <div className="scroll-element">hhhh</div> */}
+
+            {imagesForScroll.map((image, index) => (
+              <div
+                key={index}
+                className={`w-full h-full rounded-2xl  sticky top-36 flex items-center justify-center`}
+              >
+                <div className="w-1/2 flex items-center rounded-2xl justify-center">
+                  <div className="h-[23rem] rounded-2xl w-10/12 mx-auto">
+                    <Image
+                      src={image.src}
+                      alt={`Image ${index + 1}`}
+                      width={500}
+                      height={500}
+                      className="w-full h-full object-cover rounded-2xl"
+                    />
+                  </div>
+                </div>
+                <div className="w-1/2 text-left">
+                  {currentSlide === index && (
+                    <div className="px-10 flex  flex-col">
+                      <p className="text-xl font-bold mb-6">{image.title}</p>
+                      <p className="text-sm mb-6 text-muted-foreground">
+                        {image.text}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
 
           <section className="w-10/12 mx-auto max-w-6xl">

@@ -1,5 +1,3 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
 // Create or import your navbar component
 import { ReactNode } from "react";
 
@@ -15,11 +13,13 @@ import { ThemeToggle } from "./theme-toggle";
 
 const TransparentNavbar = () => {
   return (
-    <div>
+    <div className="h-32">
       {/* Transparent Navbar */}
       <Navbar className="navbar-glass fixed top-10 left-20 right-20 lg:right-48 lg:left-48 z-50">
         <div className="flex justify-between items-center z-50 px-6  py-6">
-          <h1 className="text-white font-bold ">PixArt</h1>
+          <Link href={"/"} className="text-white font-bold ">
+            PixArt
+          </Link>
           <div className="space-x-4">
             <Link
               href={"/"}
@@ -33,12 +33,12 @@ const TransparentNavbar = () => {
             >
               Tools{" "}
             </Link>
-            <Link
+            {/* <Link
               href={"/"}
               className="bg-transparent hover:text-primary/90  border-none"
             >
               Sign In
-            </Link>
+            </Link> */}
 
             <Link
               href={"#home"}

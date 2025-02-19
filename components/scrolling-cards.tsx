@@ -52,16 +52,16 @@ export default function ScrollingCards() {
   return (
     <div
       ref={containerRef}
-      className="w-full flex-col h-[50vh] overflow-y-scroll scrollbar-hide"
+      className="w-full hidden md:flex flex-col  h-[56vh] overflow-y-scroll scrollbar-hide"
     >
       {images.slice(0, 5).map((image, index) => (
         <div
           key={index}
-          className={`w-full h-full  flex items-center sticky top-${
+          className={`w-full h-full rounded-2xl  flex items-center sticky top-${
             index % 2 === 0 ? index : index + 1
           } justify-center`}
         >
-          <div className="w-1/2 flex items-center  justify-center">
+          <div className="w-1/2 flex items-center rounded-2xl justify-center">
             <div className="h-92 rounded-2xl w-10/12 mx-auto">
               <Image
                 src={image.src}
@@ -75,14 +75,6 @@ export default function ScrollingCards() {
           <div className="w-1/2 text-left">
             {currentSlide === index && (
               <div className="px-10 flex  flex-col">
-                {/* <div className="mb-10 w-32 bg-muted-foreground h-1 rounded-full">
-                  <motion.div
-                    transition={{ duration: 0.7, ease: "easeInOut" }}
-                    initial={{ width: 0 }}
-                    animate={{ width: `${(index / images.length) * 100}%` }}
-                    className="h-1 bg-primary rounded-full "
-                  ></motion.div>
-                </div> */}
                 <p className="text-xl font-bold mb-6">{image.title}</p>
                 <p className="text-sm mb-6 text-muted-foreground">
                   {image.text}

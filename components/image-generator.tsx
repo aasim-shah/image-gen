@@ -81,58 +81,6 @@ export function ImageGenerator({ setimageUrls }: { setimageUrls: any }) {
     setLoading(true);
     setimageUrls([]);
     try {
-      //   const url =
-      //     mode === "text2img"
-      //       ? "https://modelslab.com/api/v6/realtime/text2img"
-      //       : "https://modelslab.com/api/v6/realtime/img2img";
-
-      //   const body =
-      //     mode === "text2img"
-      //       ? {
-      //           key: process.env.NEXT_PUBLIC_MODELSLAB_API_KEY,
-      //           prompt: formData.prompt,
-      //           negative_prompt: formData.negativePrompt,
-      //           width: formData.width,
-      //           height: formData.height,
-      //           safety_checker: formData.safetyChecker,
-      //           seed: formData.seed ? parseInt(formData.seed) : null,
-      //           samples: formData.samples,
-      //           base64: false,
-      //         }
-      //       : {
-      //           key: process.env.NEXT_PUBLIC_MODELSLAB_API_KEY,
-      //           prompt: formData.prompt,
-      //           negative_prompt: formData.negativePrompt,
-      //           init_image: formData.initImage,
-      //           width: formData.width,
-      //           height: formData.height,
-      //           safety_checker: formData.safetyChecker,
-      //           strength: formData.strength,
-      //           seed: formData.seed ? parseInt(formData.seed) : null,
-      //           samples: formData.samples,
-      //         };
-
-      //   const response = await fetch(url, {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify(body),
-      //   });
-
-      //   const data = await response.json();
-
-      //   if (data.status === "processing" && data.fetch_result) {
-      //     // Poll the fetch_result URL until status is success
-      //     await pollForCompletion(data.fetch_result);
-      //     setLoading(true);
-      //   } else if (data.status === "success") {
-      //     setimageUrls(data.output);
-      //   } else {
-      //     console.error("Unexpected status:", data.status);
-      //   }
-
-      console.log({ prompts: selectedModel });
       const response = await together.images.create({
         model: selectedModel?.model_id,
         steps: 4,
@@ -144,6 +92,13 @@ export function ImageGenerator({ setimageUrls }: { setimageUrls: any }) {
       });
       const urlsOnly = response?.data.map((i: any) => i.url);
       setimageUrls(urlsOnly);
+
+      // Store in localStorage
+      const existingImages = JSON.parse(
+        localStorage.getItem("generatedImages") || "[]"
+      );
+      const updatedImages = [...urlsOnly, ...existingImages].slice(0, 10);
+      localStorage.setItem("generatedImages", JSON.stringify(updatedImages));
     } catch (error) {
       console.error("Error generating image:", error);
     } finally {
@@ -169,7 +124,6 @@ export function ImageGenerator({ setimageUrls }: { setimageUrls: any }) {
         setimageUrls(result.output);
         setLoading(false);
       } else if (result.status === "processing") {
-        // Retry after the ETA if provided, or default to 2 seconds
         const retryDelay = result.eta ? result.eta * 1000 : 2000;
         setTimeout(() => pollForCompletion(fetchUrl), retryDelay);
       } else {

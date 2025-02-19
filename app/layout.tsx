@@ -3,6 +3,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import StoreProvider from "./providers/storeProvider";
+import TransparentNavbar from "@/components/navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,6 +27,9 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+            <div className=" hidden md:flex">
+              <TransparentNavbar />
+            </div>
             {children}
           </ThemeProvider>
         </StoreProvider>
