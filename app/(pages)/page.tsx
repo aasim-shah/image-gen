@@ -194,7 +194,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="min-h-screen relative">
+    <main className="min-h-screen lg:max-w-[1500px] mx-auto relative">
       {/* Hero Section */}
 
       <div className="absolute top-29 left-0 w-full h-96">
@@ -289,27 +289,29 @@ export default function Home() {
             <RecentlyGeneratedImages imageUrls={imageUrls} />
           </div>
 
-          <div ref={containerRef} className="my-20 relative  lg:pl-20 ">
+          <div ref={containerRef} className="my-20 relative   lg:pl-20 ">
             {/* <ScrollingCards /> */}
             {/* <div className="scroll-element">hhhh</div> */}
 
             {imagesForScroll.map((image, index) => (
               <div
                 key={index}
-                className={`w-full h-full rounded-2xl  sticky top-36 flex items-center justify-center`}
+                className={`w-full h-full rounded-2xl  sticky top-[40%]  flex  justify-center`}
               >
                 <div className="w-1/2 flex items-center rounded-2xl justify-center">
-                  <div className="h-[23rem] rounded-2xl w-10/12 mx-auto">
-                    <Image
-                      src={image.src}
-                      alt={`Image ${index + 1}`}
-                      width={500}
-                      height={500}
-                      className="w-full h-full object-cover rounded-2xl"
-                    />
+                  <div className="h-[40rem] w-full">
+                    <div className="h-[23rem] rounded-2xl w-10/12 mx-auto">
+                      <Image
+                        src={image.src}
+                        alt={`Image ${index + 1}`}
+                        width={500}
+                        height={500}
+                        className="w-full h-full object-cover rounded-2xl"
+                      />
+                    </div>
                   </div>
                 </div>
-                <div className="w-1/2 text-left">
+                <div className="w-1/2 h-[25rem] flex items-center   text-left">
                   {currentSlide === index && (
                     <div className="px-10 flex  flex-col">
                       <p className="text-xl font-bold mb-6">{image.title}</p>
