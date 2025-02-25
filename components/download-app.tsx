@@ -21,7 +21,7 @@ const DownloadSection = () => {
         </div>
         <div className="col-span-1 p-4 lg:p-0">
           <div className="flex flex-col space-y-10 justify-center items-center">
-            <p className="lg:text-2xl w-8/12 mx-auto text-lg font-bold text-center">
+            <p className="lg:text-xl w-10/12 mx-auto text-lg font-bold text-center">
               Download our app to get started with your journey.
             </p>
             <div className="flex flex-row gap-4 items-center justify-center ">

@@ -32,8 +32,6 @@ const together = new Together({
   apiKey: "58c087e15a57412ba6a7b19b01257f649467f3a4ff68a3983fa8c375816332cb",
 });
 
-// import { uploadToCloudinary } from "@/utils/cloudinary"; // Assuming a utility for Cloudinary upload
-
 export function ImageGenerator({ setimageUrls }: { setimageUrls: any }) {
   const [loading, setLoading] = useState(false);
   const [mode, setMode] = useState("text2img");
@@ -158,19 +156,6 @@ export function ImageGenerator({ setimageUrls }: { setimageUrls: any }) {
 
   return (
     <Card className="rounded-2xl p-8 space-y-6">
-      {/* <div className="flex justify-between items-center"> */}
-      {/* <Label className="font-medium">Mode</Label>
-        <Select value={mode} onValueChange={(value) => setMode(value)}>
-          <SelectTrigger className="bg-secondary/50 border-0 rounded-2xl">
-            <SelectValue placeholder="Select mode" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="text2img">Text to Image</SelectItem>
-            <SelectItem value="img2img">Image to Image</SelectItem>
-          </SelectContent>
-        </Select> */}
-      {/* </div> */}
-
       <div className="space-y-6 animate-slide-up">
         <div className="space-y-2">
           <Textarea
@@ -203,7 +188,7 @@ export function ImageGenerator({ setimageUrls }: { setimageUrls: any }) {
             />
           </div> */}
 
-          {mode === "img2img" && (
+          {/* {mode === "img2img" && (
             <div className="space-y-4 px-4">
               <Label htmlFor="strength" className="font-medium">
                 Strength
@@ -223,7 +208,7 @@ export function ImageGenerator({ setimageUrls }: { setimageUrls: any }) {
                 {formData.strength.toFixed(1)}
               </p>
             </div>
-          )}
+          )} */}
 
           {/* <div className="space-y-4 px-4">
             <Label htmlFor="samples" className="font-medium">

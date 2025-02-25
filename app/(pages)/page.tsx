@@ -34,15 +34,15 @@ import WhatsAppButton from "@/components/dragable-button";
 import DownloadAppSection from "@/components/download-app";
 import DownloadSection from "@/components/download-app";
 import Link from "next/link";
-import ScrollingCards from "@/components/scrolling-cards";
 import RecentlyGeneratedImages from "@/components/recently-generated-images";
+import ImageSlider from "@/components/scrolling-cards";
 
 export default function Home() {
   const [imageUrls, setimageUrls] = useState([]);
   const [favorites, setFavorites] = useState<string[]>([]);
 
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
+  // const [currentSlide, setCurrentSlide] = useState(0);
+  // const containerRef = useRef<HTMLDivElement>(null);
 
   const images: string[] = [
     "/a.png",
@@ -137,15 +137,14 @@ export default function Home() {
 
     useFrame(({ clock }) => {
       if (ref.current) {
-        ref.current.rotation.y = clock.elapsedTime * 0.03; // Slow rotation for dynamic movement
+        ref.current.rotation.y = clock.elapsedTime * 0.03;
       }
     });
 
-    // Increase the spread so particles exceed the card bounds
     const particles = Array.from({ length: 1000 }, () => [
-      MathUtils.randFloatSpread(15), // Increased X-axis spread (beyond card width)
-      MathUtils.randFloatSpread(10), // Increased Y-axis spread (beyond card height)
-      MathUtils.randFloatSpread(12), // Increased Z-axis spread
+      MathUtils.randFloatSpread(15),
+      MathUtils.randFloatSpread(10),
+      MathUtils.randFloatSpread(12),
     ]);
 
     return (
@@ -174,27 +173,8 @@ export default function Home() {
     );
   };
 
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) {
-      console.log("no container");
-      return;
-    }
-
-    const handleScroll = () => {
-      const { scrollTop, clientHeight } = container;
-      console.log({ scrollTop, clientHeight });
-      const slideIndex = Math.floor(scrollTop / clientHeight);
-      console.log({ slideIndex });
-      setCurrentSlide(slideIndex);
-    };
-
-    container.addEventListener("scroll", handleScroll);
-    return () => container.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
-    <main className="min-h-screen lg:max-w-[1500px] mx-auto relative">
+    <main className="max-w-[1800px] mx-auto">
       {/* Hero Section */}
 
       <div className="absolute top-29 left-0 w-full h-96">
@@ -205,13 +185,13 @@ export default function Home() {
         </Canvas>
       </div>
 
-      <div className=" relative  mx-auto p-6 space-y-16">
+      <div className="   mx-auto p-6 space-y-16">
         <div className="flex flex-col w-full  gap-0 opacity-50 blur-sm  z-30">
           <InfiniteScrollGallery images={images} speed={30} isReverse={true} />
           <InfiniteScrollGallery images={images} speed={60} isReverse={false} />
           <InfiniteScrollGallery images={images} speed={30} isReverse={true} />
         </div>
-        <div className="space-y-4  lg:left-[20%] absolute text-center top-20 py-10 animate-fade  bg-gradient-radial from-black via-transparent to-transparent  bg-center">
+        <div className="space-y-4 text-center absolute lg:left-[50%] lg:translate-x-[-50%] top-20 py-10 animate-fade  bg-gradient-radial from-black via-transparent to-transparent  bg-center">
           <div className="inline-block animate-float">
             <div className="relative">
               <div className="absolute -inset-1 bg-gradient-to-r from-primary to-primary/50 rounded-full blur opacity-30"></div>
@@ -239,60 +219,56 @@ export default function Home() {
           </div>
         </div>
 
-        <section id="generateImage" className="w-full mx-auto max-w-8xl">
-          {/* Main Content */}
-          <div className="grid grid-cols-1 w-10/12 mx-auto  gap-8">
-            <div className="transition-all duration-300">
-              <ImageGenerator setimageUrls={setimageUrls} />
-              {/* <GenerateImage /> */}
-            </div>
-            <div className="grid grid-cols-2 gap-4 stagger-animation">
-              {imageUrls.length > 0 &&
-                imageUrls.map((i: string) => (
-                  <Card
-                    key={i}
-                    className="relative w-full lg:w-96 rounded-2xl glass-card flex items-center justify-center group hover:border-primary/50 transition-all duration-300"
-                  >
-                    {/* Icon container positioned at top-right */}
-                    <div className="absolute top-2 right-2 flex space-x-2">
-                      {/* check if favoirite then fill it with primary colour else outline */}
-                      <Button
-                        onClick={() => toggleFavorite(i)}
-                        className="bg-secondary p-2 rounded-full h-8 w-8 m-0 hover:bg-secondary/50 transition-colors"
-                      >
-                        {favorites.includes(i) ? (
-                          <FaHeart className={`h-5 w-5 text-primary`} />
-                        ) : (
-                          <Heart className={`h-5 w-5 `} />
-                        )}
-                      </Button>
-                      <Download
-                        // onClick={() => handleDownload(i)}
-                        onClick={() => download(i)}
-                        className="bg-secondary p-2 rounded-full h-8 w-8 m-0 hover:bg-secondary/50 transition-colors"
-                      />
-                    </div>
-                    <Image
-                      src={i}
-                      alt="Generated Image"
-                      width={300}
-                      height={400}
-                      className="object-cover w-full h-full rounded-2xl"
+        {/* <section id="generateImage" className="w-full mx-auto max-w-8xl"> */}
+        {/* Main Content */}
+        <div className="grid grid-cols-1 w-10/12 mx-auto  gap-8">
+          {/* <GenerateImage /> */}
+          {/* <div className="transition-all duration-300">
+            <ImageGenerator setimageUrls={setimageUrls} />
+          </div> */}
+          <div className="grid grid-cols-2 gap-4 stagger-animation">
+            {imageUrls.length > 0 &&
+              imageUrls.map((i: string) => (
+                <Card
+                  key={i}
+                  className="relative w-full lg:w-96 rounded-2xl glass-card flex items-center justify-center group hover:border-primary/50 transition-all duration-300"
+                >
+                  {/* Icon container positioned at top-right */}
+                  <div className="absolute top-2 right-2 flex space-x-2">
+                    {/* check if favoirite then fill it with primary colour else outline */}
+                    <Button
+                      onClick={() => toggleFavorite(i)}
+                      className="bg-secondary p-2 rounded-full h-8 w-8 m-0 hover:bg-secondary/50 transition-colors"
+                    >
+                      {favorites.includes(i) ? (
+                        <FaHeart className={`h-5 w-5 text-primary`} />
+                      ) : (
+                        <Heart className={`h-5 w-5 `} />
+                      )}
+                    </Button>
+                    <Download
+                      // onClick={() => handleDownload(i)}
+                      onClick={() => download(i)}
+                      className="bg-secondary p-2 rounded-full h-8 w-8 m-0 hover:bg-secondary/50 transition-colors"
                     />
-                  </Card>
-                ))}
-            </div>
+                  </div>
+                  <Image
+                    src={i}
+                    alt="Generated Image"
+                    width={300}
+                    height={400}
+                    className="object-cover w-full h-full rounded-2xl"
+                  />
+                </Card>
+              ))}
           </div>
+        </div>
 
-          <div className="my-20  mx-auto w-10/12  ">
-            {/* <ScrollTriggerSlider /> */}
-            <RecentlyGeneratedImages imageUrls={imageUrls} />
-          </div>
+        {/* <div className="my-20  mx-auto w-10/12  ">
+          <RecentlyGeneratedImages imageUrls={imageUrls} />
+        </div> */}
 
-          <div ref={containerRef} className="my-20 relative   lg:pl-20 ">
-            {/* <ScrollingCards /> */}
-            {/* <div className="scroll-element">hhhh</div> */}
-
+        {/* <div ref={containerRef} className="my-20 relative   lg:pl-20 ">
             {imagesForScroll.map((image, index) => (
               <div
                 key={index}
@@ -301,6 +277,8 @@ export default function Home() {
                 <div className="w-1/2 flex items-center rounded-2xl justify-center">
                   <div className="h-[40rem] w-full">
                     <div className="h-[23rem] rounded-2xl w-10/12 mx-auto">
+                      <p className="text-xl font-bold mb-6">{index}</p>
+
                       <Image
                         src={image.src}
                         alt={`Image ${index + 1}`}
@@ -323,35 +301,72 @@ export default function Home() {
                 </div>
               </div>
             ))}
+          </div> */}
+
+        {/* <div className="my-20 relative lg:pl-20">
+            {imagesForScroll.map((image, index) => (
+              <div
+                key={index}
+                className={`w-full h-full rounded-2xl sticky top-[40%] flex justify-center`}
+              >
+                <div className="w-1/2 flex items-center rounded-2xl justify-center">
+                  <div className="h-[40rem] w-full">
+                    <div className="h-[23rem] rounded-2xl w-10/12 mx-auto">
+                      <p className="text-xl font-bold mb-6">{index}</p>
+                      <Image
+                        src={image.src}
+                        alt={`Image ${index + 1}`}
+                        width={500}
+                        height={500}
+                        className="w-full h-full object-cover rounded-2xl"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="w-1/2 h-[25rem] flex items-center text-left">
+                  {currentSlide === index && (
+                    <div className="px-10 flex flex-col">
+                      <p className="text-xl font-bold mb-6">{image.title}</p>
+                      <p className="text-sm mb-6 text-muted-foreground">
+                        {image.text}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div> */}
+
+        {/*  */}
+        <div className=" ">
+          <ImageSlider />
+        </div>
+
+        {/*  */}
+
+        <section className="w-10/12 mx-auto max-w-6xl">
+          {/* Features Section */}
+          <Features />
+
+          {/* Images gallary */}
+          <div className="flex flex-col">
+            <InfiniteScrollGallery
+              images={images}
+              speed={60}
+              isReverse={true}
+            />
+            <InfiniteScrollGallery
+              images={images}
+              speed={60}
+              isReverse={false}
+            />
           </div>
 
-          <section className="w-10/12 mx-auto max-w-6xl">
-            {/* Features Section */}
-            <Features />
+          <Testimonials />
 
-            {/* Images gallary */}
-            <div className="flex flex-col">
-              <InfiniteScrollGallery
-                images={images}
-                speed={60}
-                isReverse={true}
-              />
-              <InfiniteScrollGallery
-                images={images}
-                speed={60}
-                isReverse={false}
-              />
-            </div>
+          {/* <DownloadSection /> */}
 
-            {/* Testimonials Section */}
-            <Testimonials />
-
-            {/* downlaod app */}
-            <DownloadSection />
-
-            {/* CTA Section */}
-            <FuturisticCTA />
-          </section>
+          <FuturisticCTA />
         </section>
       </div>
       <WhatsAppButton
