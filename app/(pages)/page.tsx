@@ -212,7 +212,7 @@ export default function Home() {
           <div className="pt-4">
             <Link
               href="/inspirations"
-              className="bg-primary text-sm rounded-2xl py-3 px-6 hover:bg-primary/90"
+              className="bg-primary text-base rounded-2xl py-3 px-6 hover:bg-primary/90"
             >
               Inspirations
             </Link>

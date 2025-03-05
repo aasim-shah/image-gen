@@ -212,7 +212,7 @@ export default function ImageSlider() {
                     className="h-1  rounded-full w-12"
                     layoutId="underline"
                   />
-                  <h2 className="lg:text-3xl lg:font-bold  tracking-tight">
+                  <h2 className="lg:text-xl lg:font-bold  tracking-tight">
                     {slides[activeIndex].title}
                   </h2>
                   <p className="text-sm  text-muted-foreground  leading-relaxed">

@@ -42,7 +42,7 @@ const TransparentNavbar = () => {
 
             <Link
               href={"#download"}
-              className="bg-primary  py-2 px-4 text-sm rounded-full text-white border-none hover:bg-primary/90"
+              className="bg-primary  py-2 px-4 text-base rounded-full text-white border-none hover:bg-primary/90"
             >
               Lanuch App
             </Link>
