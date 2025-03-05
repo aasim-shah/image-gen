@@ -174,7 +174,7 @@ export default function ImageSlider() {
   return (
     <div ref={containerRef} className="relative w-10/12 mx-auto h-[300vh]">
       <div className="sticky top-0 h-screen flex items-center ">
-        <div className="w-full h-full flex">
+        <div className="w-full  h-full flex">
           {/* Left Side - Image */}
           <div className="w-1/2 h-full relative flex justify-center items-center">
             {slides.map((slide, index) => (
@@ -184,7 +184,7 @@ export default function ImageSlider() {
                   y: translateYValues[index],
                   zIndex: index, // Ensures stacking order
                 }}
-                className="absolute w-3/4 h-[22rem]"
+                className="absolute w-3/4 lg:h-[22rem]"
               >
                 <motion.img
                   src={slide.image}
@@ -212,13 +212,14 @@ export default function ImageSlider() {
                     className="h-1  rounded-full w-12"
                     layoutId="underline"
                   />
-                  <h2 className="text-3xl font-bold  tracking-tight">
+                  <h2 className="lg:text-3xl lg:font-bold  tracking-tight">
                     {slides[activeIndex].title}
                   </h2>
-                  <p className="text-sm text-muted-foreground  leading-relaxed">
-                    {slides[activeIndex].description}
+                  <p className="text-sm  text-muted-foreground  leading-relaxed">
+                    {slides[activeIndex].description?.toString().slice(0, 100)}{" "}
+                    ...
                   </p>
-                  <Button size="lg" className="  rounded-full px-8">
+                  <Button className=" px-5 text-sm font-normal  rounded-full lg:px-8">
                     Learn More
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>

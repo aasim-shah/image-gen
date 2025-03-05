@@ -191,14 +191,14 @@ export default function Home() {
           <InfiniteScrollGallery images={images} speed={60} isReverse={false} />
           <InfiniteScrollGallery images={images} speed={30} isReverse={true} />
         </div>
-        <div className="space-y-4 text-center absolute lg:left-[50%] lg:translate-x-[-50%] top-20 py-10 animate-fade  bg-gradient-radial from-black via-transparent to-transparent  bg-center">
+        <div className="space-y-4 text-center absolute lg:left-[50%] lg:translate-x-[-50%] top-20 py-10 animate-fade  bg-gradient-radial from-gray-800 via-transparent to-transparent  bg-center">
           <div className="inline-block animate-float">
             <div className="relative">
               <div className="absolute -inset-1 bg-gradient-to-r from-primary to-primary/50 rounded-full blur opacity-30"></div>
               <Sparkles className="w-12 h-12 text-primary relative" />
             </div>
           </div>
-          <h1 className="text-3xl sm:text-7xl font-">
+          <h1 className="text-3xl sm:text-7xl  font-">
             Create Beautiful Art With{" "}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary/80 to-primary/50">
               <br />
@@ -264,79 +264,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* <div className="my-20  mx-auto w-10/12  ">
-          <RecentlyGeneratedImages imageUrls={imageUrls} />
-        </div> */}
-
-        {/* <div ref={containerRef} className="my-20 relative   lg:pl-20 ">
-            {imagesForScroll.map((image, index) => (
-              <div
-                key={index}
-                className={`w-full h-full rounded-2xl  sticky top-[40%]  flex  justify-center`}
-              >
-                <div className="w-1/2 flex items-center rounded-2xl justify-center">
-                  <div className="h-[40rem] w-full">
-                    <div className="h-[23rem] rounded-2xl w-10/12 mx-auto">
-                      <p className="text-xl font-bold mb-6">{index}</p>
-
-                      <Image
-                        src={image.src}
-                        alt={`Image ${index + 1}`}
-                        width={500}
-                        height={500}
-                        className="w-full h-full object-cover rounded-2xl"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="w-1/2 h-[25rem] flex items-center   text-left">
-                  {currentSlide === index && (
-                    <div className="px-10 flex  flex-col">
-                      <p className="text-xl font-bold mb-6">{image.title}</p>
-                      <p className="text-sm mb-6 text-muted-foreground">
-                        {image.text}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div> */}
-
-        {/* <div className="my-20 relative lg:pl-20">
-            {imagesForScroll.map((image, index) => (
-              <div
-                key={index}
-                className={`w-full h-full rounded-2xl sticky top-[40%] flex justify-center`}
-              >
-                <div className="w-1/2 flex items-center rounded-2xl justify-center">
-                  <div className="h-[40rem] w-full">
-                    <div className="h-[23rem] rounded-2xl w-10/12 mx-auto">
-                      <p className="text-xl font-bold mb-6">{index}</p>
-                      <Image
-                        src={image.src}
-                        alt={`Image ${index + 1}`}
-                        width={500}
-                        height={500}
-                        className="w-full h-full object-cover rounded-2xl"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="w-1/2 h-[25rem] flex items-center text-left">
-                  {currentSlide === index && (
-                    <div className="px-10 flex flex-col">
-                      <p className="text-xl font-bold mb-6">{image.title}</p>
-                      <p className="text-sm mb-6 text-muted-foreground">
-                        {image.text}
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div> */}
-
         {/*  */}
         <div className=" ">
           <ImageSlider />
@@ -364,9 +291,9 @@ export default function Home() {
 
           <Testimonials />
 
-          {/* <DownloadSection /> */}
+          <DownloadSection />
 
-          <FuturisticCTA />
+          {/* <FuturisticCTA /> */}
         </section>
       </div>
       <WhatsAppButton

@@ -17,7 +17,7 @@ const TransparentNavbar = () => {
       {/* Transparent Navbar */}
       <Navbar className="navbar-glass fixed top-10 left-20 right-20 lg:right-48 lg:left-48 z-50">
         <div className="flex justify-between items-center z-50 px-6  py-6">
-          <Link href={"/"} className="text-white font-bold ">
+          <Link href={"/"} className=" font-bold ">
             PixArt
           </Link>
           <div className="space-x-4">
@@ -41,7 +41,7 @@ const TransparentNavbar = () => {
             </Link> */}
 
             <Link
-              href={"#home"}
+              href={"#download"}
               className="bg-primary  py-2 px-4 text-sm rounded-full text-white border-none hover:bg-primary/90"
             >
               Lanuch App
